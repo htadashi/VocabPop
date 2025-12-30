@@ -5,7 +5,7 @@ edition = "2021"
 
 [dependencies]
 clap = { version = "4", features = ["derive"] }
-winrt-notification = "0.6"
+winrt-notification = "=0.5.1"
 rand = "0.8"
 ctrlc = "3"
 tray-item = "0.6"
