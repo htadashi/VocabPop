@@ -123,7 +123,6 @@ fn main() {
     #[cfg(target_os = "windows")]
     {
         use tray_icon::{TrayIcon, TrayIconAttributes, menu::Menu, menu::MenuItem};
-        let tx_clone = tx.clone();
         let running_clone = running.clone();
         std::thread::spawn(move || {
             let mut menu = Menu::new();
@@ -132,8 +131,12 @@ fn main() {
             let _ = menu.append(&show_now);
             let _ = menu.append(&quit);
 
-            let attrs = TrayIconAttributes::new()
-                .with_menu(Box::new(menu));
+            let attrs = TrayIconAttributes {
+                tooltip: Some("VocabPop".to_string()),
+                menu: Some(Box::new(menu)),
+                icon: None,
+                temp_dir: None,
+            };
 
             let _tray = match TrayIcon::new(attrs) {
                 Ok(t) => t,
