@@ -1,0 +1,4 @@
+# Sample vocab file. Format: word[TAB]reading[TAB]meaning[TAB]codes
+猫	ねこ	cat	(n)
+勉強	べんきょう	study	(vs)
+学生	がくせい	student	(n)
