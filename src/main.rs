@@ -122,23 +122,23 @@ fn main() {
     // Setup tray icon on Windows. Menu: Show Now, Quit
     #[cfg(target_os = "windows")]
     {
-        use tray_icon::{TrayIcon, menu::Menu, menu::MenuItem};
+        use tray_icon::{TrayIcon, TrayIconAttributes, menu::Menu, menu::MenuItem};
         let tx_clone = tx.clone();
         let running_clone = running.clone();
         std::thread::spawn(move || {
             let mut menu = Menu::new();
-            let show_now = MenuItem::new("Show now", true, false);
-            let quit = MenuItem::new("Quit", true, false);
+            let show_now = MenuItem::new("Show now", true, None);
+            let quit = MenuItem::new("Quit", true, None);
             let _ = menu.append(&show_now);
             let _ = menu.append(&quit);
 
-            let mut tray = match TrayIcon::new(None, None, Some(menu)) {
+            let attrs = TrayIconAttributes::new()
+                .with_menu(Box::new(menu));
+
+            let _tray = match TrayIcon::new(attrs) {
                 Ok(t) => t,
                 Err(e) => { eprintln!("tray init error: {}", e); return; }
             };
-
-            let tx_show = tx_clone.clone();
-            let _ = tray.set_menu(&Box::new(Menu::new()));
             
             // keep thread alive to process tray events
             loop {
